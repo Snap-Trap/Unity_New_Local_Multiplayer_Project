@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8711995343385414898}
   - component: {fileID: -9182110349789661883}
   - component: {fileID: 909158433685882094}
+  - component: {fileID: -4936625327684562068}
   m_Layer: 0
   m_Name: Players
   m_TagString: Player
@@ -178,6 +179,23 @@ MonoBehaviour:
   up: 0
   boxSize: {x: 0, y: 0}
   castDistance: 0
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+--- !u!114 &-4936625327684562068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1066878913269947537}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52ae2605ae0a344199095e5c94ebaa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  groundCheck: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
