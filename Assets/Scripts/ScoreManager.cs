@@ -1,18 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
-public class ScoreManager : MonoBehaviour
+namespace Assets.Scripts
 {
-    // Start is called before the first frame update
-    void Start()
+    public class ScoreManager : MonoBehaviour
     {
-        
-    }
+        public TextMeshProUGUI ScoreText;
+        public static int CoinValue = 10;
+        public static int Score;
+        public static int Result = 0;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void FixedUpdate()
+        {
+            ScoreText.text = ScoreText.ToString();
+            ScoreText.text = "HighScore: " + Result;
+        }
+
+        public static void AddScore()
+        {
+            Score++;
+            Result = Score * CoinValue;
+        }
     }
 }
