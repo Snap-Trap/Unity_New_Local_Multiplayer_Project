@@ -13,8 +13,6 @@ public class Player_Movement : MonoBehaviour
 
     [SerializeField] private Rigidbody2D rb; // Rigidbody for player
 
-    public float speed;
-
     // Keybinds for both players, change in inspector
     public KeyCode left;
     public KeyCode right;
