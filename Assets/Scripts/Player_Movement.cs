@@ -25,17 +25,12 @@ public class Player_Movement : MonoBehaviour
     private Animator anim;
 
     private bool running = false;
+    public bool isGrounded;
 
     void Start()
     {
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
-    }
-
-    bool isGrounded()
-    {
-
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
     }
 
     void FixedUpdate()
@@ -49,7 +44,7 @@ public class Player_Movement : MonoBehaviour
         {
             rb.velocity = new Vector2(1 * speed, rb.velocity.y);
         }
-        else if (Input.GetKeyDown(up))// && isGrounded())
+        else if (Input.GetKeyDown(up) && isGrounded == true)
         {
             rb.velocity = new Vector2(rb.velocity.x, _jumppower);
         }
@@ -68,7 +63,7 @@ public class Player_Movement : MonoBehaviour
 
        anim.SetBool("isRunning", running);
 
-       anim.SetBool("isJumping", !isGrounded());
+       anim.SetBool("isJumping", !isGrounded);
         
         rb.velocity = new Vector2(_horizontal * _speed, rb.velocity.y);
         if (_horizontal > 0 && !_isfacingright)
@@ -89,6 +84,21 @@ public class Player_Movement : MonoBehaviour
             Vector3 localScale = transform.localScale;
             localScale.x *= -1;
             transform.localScale = localScale;
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.collider.CompareTag("Ground"))
+        {
+            isGrounded = false;
         }
     }
 }
