@@ -12,8 +12,6 @@ public class Player_Movement : MonoBehaviour
     private bool _isfacingright = true; // For animation purposes with sprites
 
     [SerializeField] private Rigidbody2D rb; // Rigidbody for player
-    [SerializeField] private Transform groundCheck; // Ground check for jumping
-    [SerializeField] private LayerMask groundLayer; // Layer for ground
 
     public float speed;
 
@@ -44,7 +42,7 @@ public class Player_Movement : MonoBehaviour
         {
             rb.velocity = new Vector2(1 * speed, rb.velocity.y);
         }
-        else if (Input.GetKeyDown(up) && isGrounded == true)
+        else if (Input.GetKey(up) && isGrounded == true)
         {
             rb.velocity = new Vector2(rb.velocity.x, _jumppower);
         }
