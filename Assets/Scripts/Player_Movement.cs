@@ -7,7 +7,7 @@ public class Player_Movement : MonoBehaviour
 
     // Variables for player movement
     private float _horizontal;
-    public float _speed = 8f;
+    public float speed = 8f;
     public float _jumppower = 15f; // Jump power for jumping
     private bool _isfacingright = true; // For animation purposes with sprites
 
@@ -61,7 +61,7 @@ public class Player_Movement : MonoBehaviour
 
        anim.SetBool("isJumping", !isGrounded);
         
-        rb.velocity = new Vector2(_horizontal * _speed, rb.velocity.y);
+        rb.velocity = new Vector2(_horizontal * speed, rb.velocity.y);
         if (_horizontal > 0 && !_isfacingright)
         {
             Flip();
