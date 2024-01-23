@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Ground_Check : MonoBehaviour
 {
-    private bool grounded = false;
+    private bool grounded;
 
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
@@ -13,7 +13,7 @@ public class Ground_Check : MonoBehaviour
 
     private bool IsGrounded()
     {
-        if (grounded);
+        if (grounded == true);
         {
             return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
         }

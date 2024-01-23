@@ -4,36 +4,43 @@ using UnityEngine;
 
 public class Player_Movement : MonoBehaviour
 {
-    private Rigidbody2D rb;
 
-    private float Move;
+    // Variables for player movement
+    private float _horizontal;
+    public float _speed = 8f;
+    public float _jumppower = 15f; // Jump power for jumping
+    private bool _isfacingright = true; // For animation purposes with sprites
+
+    [SerializeField] private Rigidbody2D rb; // Rigidbody for player
+    [SerializeField] private Transform groundCheck; // Ground check for jumping
+    [SerializeField] private LayerMask groundLayer; // Layer for ground
+
     public float speed;
-    public float jump;
+
+    // Keybinds for both players, change in inspector
     public KeyCode left;
     public KeyCode right;
     public KeyCode up;
-    public Vector2 boxSize;
-    public float castDistance;
-    public LayerMask groundLayer;
 
     private Animator anim;
 
     private bool running = false;
 
-    private bool isFacingRight;
-    // Start is called before the first frame update
     void Start()
     {
-        isFacingRight = true;
         anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    bool isGrounded()
     {
-        //Move = Input.GetAxisRaw("Horizontal");
 
+        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+    }
+
+    void FixedUpdate()
+    {
+        Debug.Log(Input.GetKeyDown(up));
         if (Input.GetKey(left))
         {
             rb.velocity = new Vector2(-1 * speed, rb.velocity.y);
@@ -42,9 +49,13 @@ public class Player_Movement : MonoBehaviour
         {
             rb.velocity = new Vector2(1 * speed, rb.velocity.y);
         }
-        else if (Input.GetKeyDown(up) && isGrounded())
+        else if (Input.GetKeyDown(up))// && isGrounded())
         {
-            rb.AddForce(new Vector2(rb.velocity.x, jump * 10));
+            rb.velocity = new Vector2(rb.velocity.x, _jumppower);
+        }
+        else if (Input.GetKeyDown(up) && rb.velocity.y > 0f)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
         }
         else if (rb.velocity.x != 0)
         {
@@ -55,41 +66,29 @@ public class Player_Movement : MonoBehaviour
             running = false;
         }
 
-        anim.SetBool("isRunning", running);
+       anim.SetBool("isRunning", running);
 
-        anim.SetBool("isJumping", !isGrounded());
-
-        if (!isFacingRight && rb.velocity.x > 0)
+       anim.SetBool("isJumping", !isGrounded());
+        
+        rb.velocity = new Vector2(_horizontal * _speed, rb.velocity.y);
+        if (_horizontal > 0 && !_isfacingright)
         {
             Flip();
         }
-        else if (isFacingRight && rb.velocity.x < 0)
+        else if (_horizontal < 0 && _isfacingright)
         {
             Flip();
         }
     }
 
-    public void Flip()
+    void Flip()
     {
-        isFacingRight = !isFacingRight;
-        Vector3 localscale = transform.localScale;
-        localscale.x = -1f;
-        transform.localScale = localscale;
-    }
-    public bool isGrounded()
-    {
-        if (Physics2D.BoxCast(transform.position, boxSize, 0, -transform.up, castDistance, groundLayer))
+        if (_isfacingright && _horizontal < 0f || !_isfacingright && _horizontal > 0f)
         {
-            return true;
+            _isfacingright = !_isfacingright;
+            Vector3 localScale = transform.localScale;
+            localScale.x *= -1;
+            transform.localScale = localScale;
         }
-        else
-        {
-            return false;
-        }
-    }
-    private void OnDrawGizmos()
-    {
-        //GROUNDCHECK
-        //Gizmos.DrawWireCube(transform.position - transform.up castDistance, boxSize);
     }
 }
