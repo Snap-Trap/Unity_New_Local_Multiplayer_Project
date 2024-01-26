@@ -19,14 +19,11 @@ public class Player_Movement : MonoBehaviour
     public KeyCode right;
     public KeyCode up;
 
-    private Animator anim;
-
     private bool running = false;
     public bool isGrounded;
 
     void Start()
     {
-        anim = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -47,33 +44,19 @@ public class Player_Movement : MonoBehaviour
         if (Input.GetKey(left))
         {
             direction += Vector2.left;
-            running = true;
         }
 
         if (Input.GetKey(right))
         {
             direction += Vector2.right;
-            running = true;
         }
 
 
         _horizontal = direction.x;
 
         rb.velocity = new Vector2(_horizontal * speed, rb.velocity.y);
-
-        anim.SetBool("isRunning", running);
-
-        anim.SetBool("isJumping", !isGrounded);
         
         rb.velocity = new Vector2(_horizontal * speed, rb.velocity.y);
-        if (_horizontal > 0 && !_isfacingright)
-        {
-            Flip();
-        }
-        else if (_horizontal < 0 && _isfacingright)
-        {
-            Flip();
-        }
     }
 
     private void IsGroundedCheck()
@@ -88,16 +71,4 @@ public class Player_Movement : MonoBehaviour
             isGrounded = false;
         }
     }
-
-    void Flip()
-    {
-        if (_isfacingright && _horizontal < 0f || !_isfacingright && _horizontal > 0f)
-        {
-            _isfacingright = !_isfacingright;
-            Vector3 localScale = transform.localScale;
-            localScale.x *= -1;
-            transform.localScale = localScale;
-        }
-    }
-
 }
