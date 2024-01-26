@@ -10,6 +10,7 @@ TagManager:
   - Spike
   - Enemy
   - WallTrigger
+  - Coin
   layers:
   - Default
   - TransparentFX
