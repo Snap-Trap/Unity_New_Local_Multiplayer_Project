@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - UserInterface
   - Holder
+  - Spike
+  - Enemy
+  - WallTrigger
   layers:
   - Default
   - TransparentFX

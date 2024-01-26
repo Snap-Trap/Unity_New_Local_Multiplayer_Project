@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,37 +30,42 @@ public class Player_Movement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    void Update()
+    {
+
+        if (Input.GetKeyDown(up) && isGrounded)
+        {
+            rb.AddForce(Vector2.up * _jumppower, ForceMode2D.Impulse);
+        }
+    }
+
     void FixedUpdate()
     {
         Debug.Log(Input.GetKeyDown(up));
+
+        IsGroundedCheck();
+
+        Vector2 direction = new Vector2(0, 0);
         if (Input.GetKey(left))
         {
-            rb.velocity = new Vector2(-1 * speed, rb.velocity.y);
-        }
-        else if (Input.GetKey(right))
-        {
-            rb.velocity = new Vector2(1 * speed, rb.velocity.y);
-        }
-        else if (Input.GetKey(up) && isGrounded == true)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, _jumppower);
-        }
-        else if (Input.GetKeyDown(up) && rb.velocity.y > 0f)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.5f);
-        }
-        else if (rb.velocity.x != 0)
-        {
+            direction += Vector2.left;
             running = true;
         }
-        else
+
+        if (Input.GetKey(right))
         {
-            running = false;
+            direction += Vector2.right;
+            running = true;
         }
 
-       anim.SetBool("isRunning", running);
 
-       anim.SetBool("isJumping", !isGrounded);
+        _horizontal = direction.x;
+
+        rb.velocity = new Vector2(_horizontal * speed, rb.velocity.y);
+
+        anim.SetBool("isRunning", running);
+
+        anim.SetBool("isJumping", !isGrounded);
         
         rb.velocity = new Vector2(_horizontal * speed, rb.velocity.y);
         if (_horizontal > 0 && !_isfacingright)
@@ -69,6 +75,19 @@ public class Player_Movement : MonoBehaviour
         else if (_horizontal < 0 && _isfacingright)
         {
             Flip();
+        }
+    }
+
+    private void IsGroundedCheck()
+    {
+        RaycastHit2D raycastHit2D = Physics2D.Raycast(transform.position, Vector2.down, 1.05f, LayerMask.GetMask("Ground"));
+        if (raycastHit2D.collider != null)
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
         }
     }
 
@@ -82,19 +101,5 @@ public class Player_Movement : MonoBehaviour
             transform.localScale = localScale;
         }
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
-    }
 
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
-    }
 }
