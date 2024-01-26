@@ -11,6 +11,12 @@ TagManager:
   - Enemy
   - WallTrigger
   - Coin
+  - Ladder
+  - Platform
+  - DoorTrigger
+  - Ball/Box
+  - Box
+  - Door
   layers:
   - Default
   - TransparentFX
