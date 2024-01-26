@@ -41,8 +41,6 @@ public class Player_Movement : MonoBehaviour
 
     void FixedUpdate()
     {
-        Debug.Log(Input.GetKeyDown(up));
-
         IsGroundedCheck();
 
         Vector2 direction = new Vector2(0, 0);
