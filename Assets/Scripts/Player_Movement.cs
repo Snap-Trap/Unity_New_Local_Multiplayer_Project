@@ -10,7 +10,6 @@ public class Player_Movement : MonoBehaviour
     private float _horizontal;
     public float speed = 8f;
     public float _jumppower = 15f; // Jump power for jumping
-    private bool _isfacingright = true; // For animation purposes with sprites
 
     [SerializeField] private Rigidbody2D rb; // Rigidbody for player
 
@@ -19,7 +18,6 @@ public class Player_Movement : MonoBehaviour
     public KeyCode right;
     public KeyCode up;
 
-    private bool running = false;
     public bool isGrounded;
 
     void Start()
