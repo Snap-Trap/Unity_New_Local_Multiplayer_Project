@@ -13,10 +13,11 @@ namespace Assets.Scripts
         public GameObject OtherPlayer;
         private Color startColor;
         private SpriteRenderer spriteRenderer;
+        private bool isDamaged = false;
 
         void Start()
         {
-            spriteRenderer = GetComponent<SpriteRenderer>();
+            startColor = GetComponent<Renderer>().material.color;
             if (spriteRenderer != null)
             {
                 Debug.Log("SpriteRenderer component found on the GameObject.");
@@ -27,6 +28,18 @@ namespace Assets.Scripts
             {
                 Debug.LogError("SpriteRenderer component not found on the GameObject.");
                 // Just for me if it doesn't work :P
+            }
+        }
+
+        void Update()
+        {
+            if (isDamaged)
+            {
+                GetComponent<Renderer>().material.color = Color.gray;
+            }
+            else
+            {
+                GetComponent<Renderer>().material.color = startColor;
             }
         }
 
@@ -53,6 +66,7 @@ namespace Assets.Scripts
         {
             if (Health == 1)
             {
+                isDamaged = true;
                 GetComponent<Renderer>().material.color = Color.grey;
                 // When the player takes damage, their color has a grey overlay
             }
@@ -61,6 +75,7 @@ namespace Assets.Scripts
         public void GetDamage()
         {
             Health -= 1;
+            isDamaged = true;
             HealthOne();
             HealthZero();
             // When the player touches an enemy, they take one damage
@@ -84,17 +99,23 @@ namespace Assets.Scripts
             {
                 GetDamageSpike();
             }
-            else if (collision.gameObject.CompareTag("Coin"))
+        }
+
+        public void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.CompareTag("Coin"))
             {
                 CoinHealthAdd();
             }
-            
         }
 
         public void CoinHealthAdd()
         {
+            Debug.Log("Health added");
             Health += 1;
             HealthCapped(); // Healthcapped checks so the hp doesn't go above 2
+            isDamaged = false;
+
         }
 
         public void HealthCapped()
@@ -102,8 +123,6 @@ namespace Assets.Scripts
             if (Health >= 2)
             {
                 Health = 2;
-
-                spriteRenderer.color = startColor;
                 // When the player gets a coin their health goes up, and the grey overlay is removed
             }
         }

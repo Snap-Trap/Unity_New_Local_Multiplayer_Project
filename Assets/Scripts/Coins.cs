@@ -9,9 +9,9 @@ namespace Assets.Scripts
     {
         public ScoreManager ScoreManager;
 
-        public void OnCollisionEnter2D(Collision2D collision)
+        public void OnTriggerEnter2D(Collider2D other)
         {
-            if (collision.gameObject.CompareTag("Player"))//if (other.CompareTag("Player"))
+            if (other.gameObject.CompareTag("Player"))//if (other.CompareTag("Player"))
             {
                 Debug.Log("Coin collected");
                 ScoreManager.AddScore();

@@ -27,7 +27,6 @@ public class Player_Movement : MonoBehaviour
 
     void Update()
     {
-
         if (Input.GetKeyDown(up) && isGrounded)
         {
             rb.AddForce(Vector2.up * _jumppower, ForceMode2D.Impulse);
