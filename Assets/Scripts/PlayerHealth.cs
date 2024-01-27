@@ -115,7 +115,6 @@ namespace Assets.Scripts
             Health += 1;
             HealthCapped(); // Healthcapped checks so the hp doesn't go above 2
             isDamaged = false;
-
         }
 
         public void HealthCapped()

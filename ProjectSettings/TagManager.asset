@@ -17,6 +17,7 @@ TagManager:
   - Ball/Box
   - Box
   - Door
+  - Door2
   layers:
   - Default
   - TransparentFX
